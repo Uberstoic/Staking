@@ -40,6 +40,9 @@ The staking platform includes:
 - Factory Address: `0x7E0987E5b3a30e3f2828572Bb659A548460a3003`
 - WETH Address: `0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9`
 - Reward Token: `0x657eB176645e44A4128c38730e666A7B201e0Cf9`
+- Staking: `0x039525F2Cb41A76790b0337107f863Ce31fDFa3b`
+- LP Token: `0x7338be734e425b605F7Bb081B8b48d45eBA48d01`
+- Reward Token: `0x657eB176645e44A4128c38730e666A7B201e0Cf9`
 
 ### Configuration
 - Default Staking Duration: 7 days
@@ -75,3 +78,31 @@ The project includes comprehensive tests covering:
 - Safe transfer checks
 - Duration validations
 - Zero-amount protection
+
+## Command Line Interface 
+
+All commands should be run with `npx hardhat --network sepolia`
+
+### Checking Balances and Information
+```bash
+# Check staking information (balance, rewards, time)
+npx hardhat check-rewards --network sepolia
+npx hardhat get-lp-balance --network sepolia
+npx hardhat get-reward-balance --network sepolia
+
+```
+
+### Staking Operations
+```bash
+# Stake LP tokens (amount in ETH format, e.g., "1.5")
+npx hardhat stake --amount <amount> --network sepolia
+```
+
+### Withdrawals and Rewards
+```bash
+# Unstake LP tokens
+npx hardhat unstake --network sepolia
+
+# Claim accumulated rewards
+npx hardhat claim --network sepolia
+```
