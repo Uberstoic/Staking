@@ -11,15 +11,15 @@ async function main() {
   // Get contract instances
   const yourToken = await ethers.getContractAt("IERC20", YOUR_TOKEN_ADDRESS);
   
-  // Router ABI - только необходимые функции
+  // Router ABI - only required functions
   const routerAbi = [
     "function addLiquidityETH(address token, uint amountTokenDesired, uint amountTokenMin, uint amountETHMin, address to, uint deadline) external payable returns (uint amountToken, uint amountETH, uint liquidity)"
   ];
   const router = new ethers.Contract(ROUTER_ADDRESS, routerAbi, deployer);
 
-  // Параметры для добавления ликвидности
-  const tokenAmount = ethers.utils.parseEther("10"); // уменьшаем до 10 токенов
-  const ethAmount = ethers.utils.parseEther("0.001"); // уменьшаем до 0.001 ETH
+  // Parameters for adding liquidity
+  const tokenAmount = ethers.utils.parseEther("10"); // decreasing to 10 tokens
+  const ethAmount = ethers.utils.parseEther("0.001"); // decreasing to 0.001 ETH
   
   try {
     console.log(`\nApproving ${ethers.utils.formatEther(tokenAmount)} tokens for Router...`);
@@ -31,7 +31,7 @@ async function main() {
     console.log(`Token Amount: ${ethers.utils.formatEther(tokenAmount)} YOUR_TOKEN`);
     console.log(`ETH Amount: ${ethers.utils.formatEther(ethAmount)} ETH`);
 
-    const deadline = Math.floor(Date.now() / 1000) + 60 * 20; // 20 минут
+    const deadline = Math.floor(Date.now() / 1000) + 60 * 20; // 20 minutes
 
     const addLiquidityTx = await router.addLiquidityETH(
       YOUR_TOKEN_ADDRESS,
