@@ -150,3 +150,53 @@ task("check-balances", "Check token balances")
     console.log(`Reward Token Allowance for Staking: ${hre.ethers.utils.formatEther(rewardAllowance)} tokens`);
     console.log(`\nUniswap Pair Address: ${pairAddress}`);
   });
+
+task("set-duration", "Set new staking duration")
+  .addParam("duration", "New duration in seconds")
+  .setAction(async (taskArgs, hre) => {
+    const [signer] = await hre.ethers.getSigners();
+    const staking = await hre.ethers.getContractAt("Staking", STAKING_ADDRESS, signer);
+
+    console.log(`\nSetting new staking duration to ${taskArgs.duration} seconds...`);
+    const tx = await staking.setStakingDuration(taskArgs.duration);
+    await tx.wait();
+    
+    console.log("Staking duration updated successfully!");
+  });
+
+task("set-rate", "Set new reward rate")
+  .addParam("rate", "New reward rate (in tokens per second per staked token)")
+  .setAction(async (taskArgs, hre) => {
+    const [signer] = await hre.ethers.getSigners();
+    const staking = await hre.ethers.getContractAt("Staking", STAKING_ADDRESS, signer);
+
+    const rate = hre.ethers.utils.parseEther(taskArgs.rate);
+    console.log(`\nSetting new reward rate to ${taskArgs.rate} tokens per second per staked token...`);
+    const tx = await staking.setRewardRate(rate);
+    await tx.wait();
+    
+    console.log("Reward rate updated successfully!");
+  });
+
+task("fund-pool", "Fund reward pool with tokens")
+  .addParam("amount", "Amount of tokens to add to reward pool")
+  .setAction(async (taskArgs, hre) => {
+    const [signer] = await hre.ethers.getSigners();
+    const staking = await hre.ethers.getContractAt("Staking", STAKING_ADDRESS, signer);
+    const rewardToken = await hre.ethers.getContractAt("IERC20", REWARD_TOKEN_ADDRESS, signer);
+
+    const amount = hre.ethers.utils.parseEther(taskArgs.amount);
+    
+    // Approve tokens first
+    console.log(`\nApproving ${taskArgs.amount} tokens...`);
+    const approveTx = await rewardToken.approve(STAKING_ADDRESS, amount);
+    await approveTx.wait();
+    console.log("Approval confirmed!");
+
+    // Fund the pool
+    console.log(`Funding reward pool with ${taskArgs.amount} tokens...`);
+    const tx = await staking.fundRewardPool(amount);
+    await tx.wait();
+    
+    console.log("Reward pool funded successfully!");
+  });

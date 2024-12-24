@@ -106,3 +106,23 @@ npx hardhat unstake --network sepolia
 # Claim accumulated rewards
 npx hardhat claim --network sepolia
 ```
+
+### Admin Commands
+```bash
+# Set new staking duration (in seconds)
+# Example: Set to 14 days (1209600 seconds)
+npx hardhat set-duration --duration 1209600 --network sepolia
+
+# Set new reward rate
+# Example: Set to 0.0002 tokens per second per staked token
+npx hardhat set-rate --rate "0.0002" --network sepolia
+
+# Fund reward pool with tokens
+# Example: Add 1000 tokens to reward pool
+npx hardhat fund-pool --amount "1000" --network sepolia
+```
+
+### Current Parameters
+- Staking Duration: 7 days (604800 seconds)
+- Reward Rate: 0.0001 tokens per second per staked token
+- Reward Pool: Can be checked using check-rewards command
