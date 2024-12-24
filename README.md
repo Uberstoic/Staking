@@ -15,7 +15,7 @@ The staking platform includes:
 - Reward claiming functionality
 - Complete test coverage
 
-## Deployed Smart Contract Address::
+## Deployed Smart Contract Address
 Staking:
 [https://sepolia.etherscan.io/address/0x039525F2Cb41A76790b0337107f863Ce31fDFa3b#code]
 
